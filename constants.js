@@ -1,6 +1,7 @@
-exports.constance = {
+exports.constants = {
     VALIDATION_FAILED: 400,
     UNAUTH1ORIZED: 401,
     FORBIDDEN: 403,
     NOT_FOUND: 404,
+    SERVER_ERROR: 500,
 }
