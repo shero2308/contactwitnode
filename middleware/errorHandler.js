@@ -16,7 +16,7 @@ const errorHandler = (err, req, res, next) => {
             res.json({title:"Not Found",message: err.message , stackTrace: err.stack})
             break;
         case constants.SERVER_ERROR:
-            res.json({title:"Validation Failed",message: err.message , stackTrace: err.stack})
+            res.json({title:"server error",message: err.message , stackTrace: err.stack})
             break;
         default:
             console.log("No error found")
