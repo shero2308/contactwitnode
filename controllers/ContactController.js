@@ -21,7 +21,13 @@ const createContact = asyncHandler(async(req, res) => {
         res.status(400);
         throw new Error("Please add all fields");
     }
-    res.status(201).json({message:'Create contact'});
+    const contact = await Contact.create({
+        name,
+        email,
+        phone
+    })
+
+    res.status(201).json(contact);
 });
 
 //@desc Get contact
@@ -29,7 +35,12 @@ const createContact = asyncHandler(async(req, res) => {
 //@access Public
 
 const getContact = asyncHandler(async(req, res) => {
-    res.status(202).json({message:`Get contact for ${req.params.id}`});
+    const contact = await Contact.findById(req.params.id);
+    if(!contact){
+        res.status(404);
+        throw new Error("Contact not found");
+    }
+    res.status(202).json(contact);
 });
 
 //@desc Upadate contact
