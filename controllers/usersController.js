@@ -6,24 +6,45 @@ const bcrypt = require('bcrypt');
 //@route POST /api/users/register
 //@access Public
 
-const RegisterUser = asyncHandler(async(req, res) => {
-    const{ username, email, password } = req.body;
-    if (!username || !email || !password){
-        res.status(400);
-        throw new Error("All Fields are required");
-    }
-    const UserAvailable = await User.findOne({email});
-    if (UserAvailable){
-        res.status(400);
-        throw new Error("User Already Registered");
+const RegisterUser = asyncHandler(async (req, res, next) => {
+    const { username, email, password } = req.body;
+
+    // Validate input
+    if (!username || !email || !password) {
+        return res.status(400).json({ message: "All fields are required" });
     }
 
-    //Hash Password
+    // Check if user already exists
+    const userExists = await User.findOne({ email });
+    if (userExists) {
+        return res.status(400).json({ message: "User already registered" });
+    }
+
+    // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("Hashed Password: ", hashedPassword);
+    console.log("Hashed Password:", hashedPassword);
 
-    res.json({message: "Register the User"})
+    // Create new user
+    const user = await User.create({
+        username,
+        email,
+        password: hashedPassword,
+    });
+
+    console.log("User Created:", user);
+
+    if (user) {
+        return res.status(201).json({
+            _id: user.id,
+            email: user.email,
+            message: "User registered successfully",
+        }); 
+    }
+    // If user creation fails
+    return res.status(400).json({ message: "User data is not valid" });
 });
+
+module.exports = { RegisterUser };
 
 //@desc Login user
 //@route GET /api/users/login
