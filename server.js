@@ -10,6 +10,7 @@ const app = express();
 
 app.use(express.json());
 app.use("/api/contact", require("./routes/contactRoutes"));
+app.use("/api/users", require("./routes/usersRoutes"));
 app.use(errorHandler);
 
 app.listen(PORT, () => {
