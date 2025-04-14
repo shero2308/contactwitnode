@@ -125,7 +125,7 @@ Content-Type: application/json
 ## 🙋‍♂️ Author
 
 **Rakshit**  
-📧 [rakshitkumar682@example.com]  
+📧 [rakshitkumar682@gmail.com]  
 🌐 [https://github.com/shero2308]
 
 ---
